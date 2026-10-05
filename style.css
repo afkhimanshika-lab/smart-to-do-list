@@ -1,0 +1,985 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap');
+
+
+/* -------------------------
+   Reset
+------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 18px;
+
+    background: #101322;
+
+    color: #f4f1ff;
+
+    font-family: "DM Sans", sans-serif;
+
+    overflow: hidden;
+}
+
+
+/* -------------------------
+   Background
+------------------------- */
+
+.background-glow {
+    position: fixed;
+
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    opacity: 0.22;
+
+    pointer-events: none;
+}
+
+.glow-one {
+    background: #8b7cf6;
+
+    top: -180px;
+    left: -120px;
+}
+
+.glow-two {
+    background: #ff9c9c;
+
+    right: -150px;
+    bottom: -180px;
+}
+
+
+/* -------------------------
+   Main application
+------------------------- */
+
+.todo-app {
+    width: min(1180px, 94vw);
+
+    height: calc(100vh - 36px);
+
+    max-height: 760px;
+
+    padding: 34px 48px 25px;
+
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    background: rgba(24, 27, 45, 0.94);
+
+    border: 1px solid #343852;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    backdrop-filter: blur(15px);
+
+    animation: appAppear 0.7s ease;
+}
+
+@keyframes appAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* -------------------------
+   Header
+------------------------- */
+
+.app-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 20px;
+}
+
+.date {
+    color: #918da8;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 6px;
+}
+
+.heading h1 {
+    font-family:
+        "Playfair Display",
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(35px, 4vw, 52px);
+
+    line-height: 1.05;
+
+    font-weight: 600;
+
+    letter-spacing: -1px;
+
+    color: #fffaff;
+}
+
+
+.subtitle {
+    color: #aaa7bb;
+
+    margin-top: 7px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 15px;
+
+    font-style: italic;
+}
+
+
+/* -------------------------
+   Progress circle
+------------------------- */
+
+.progress-box {
+    text-align: center;
+}
+
+.progress-ring {
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            #a99cff 0deg,
+            #343852 0deg
+        );
+
+    position: relative;
+
+    transition: background 0.5s ease;
+
+    box-shadow: 0 0 25px rgba(169, 156, 255, 0.12);
+}
+
+.progress-ring::before {
+    content: "";
+
+    width: 56px;
+    height: 56px;
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    background: #181b2d;
+}
+
+.progress-ring span {
+    position: relative;
+
+    z-index: 2;
+
+    color: #dcd7ff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.progress-box p {
+    color: #77758a;
+
+    font-size: 10px;
+
+    margin-top: 5px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* -------------------------
+   Add task
+------------------------- */
+
+.add-task-box {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 7px;
+
+    background: #20243a;
+
+    border: 1px solid #363b58;
+
+    border-radius: 12px;
+
+    transition: 0.3s;
+}
+
+.add-task-box:focus-within {
+    border-color: #8e82ed;
+
+    box-shadow:
+        0 0 0 3px rgba(142, 130, 237, 0.1);
+}
+
+#taskInput {
+    flex: 1;
+
+    min-width: 0;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    padding: 11px;
+
+    color: #f6f4ff;
+
+    font-family: inherit;
+
+    font-size: 14px;
+}
+
+#taskInput::placeholder {
+    color: #77798d;
+}
+
+#priority {
+    border: none;
+
+    outline: none;
+
+    background: #292e48;
+
+    color: #aaa8bd;
+
+    padding: 9px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 12px;
+}
+
+#addTaskButton {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 10px 17px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #9b8df3;
+
+    color: #171927;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#addTaskButton span {
+    font-size: 19px;
+
+    line-height: 10px;
+}
+
+#addTaskButton:hover {
+    background: #b4aaff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(155, 141, 243, 0.2);
+}
+
+#addTaskButton:active {
+    transform: scale(0.95);
+}
+
+
+/* -------------------------
+   Tip
+------------------------- */
+
+.tip {
+    color: #65677a;
+
+    font-size: 10px;
+
+    margin: 6px 3px 10px;
+}
+
+.tip strong {
+    color: #9994b7;
+}
+
+
+/* -------------------------
+   Toolbar
+------------------------- */
+
+.task-toolbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #30344b;
+}
+
+.filters {
+    display: flex;
+
+    gap: 4px;
+}
+
+.filter {
+    border: none;
+
+    background: transparent;
+
+    color: #77798d;
+
+    padding: 6px 11px;
+
+    border-radius: 16px;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.filter:hover {
+    color: #c5bfff;
+
+    background: #252941;
+}
+
+.filter.active {
+    background: #9b8df3;
+
+    color: #181927;
+}
+
+#clearCompleted {
+    border: none;
+
+    background: transparent;
+
+    color: #77798d;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+#clearCompleted:hover {
+    color: #ff9999;
+}
+
+
+/* -------------------------
+   Task area
+------------------------- */
+
+.tasks-section {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    padding-right: 5px;
+}
+
+
+/* Scrollbar */
+
+.tasks-section::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tasks-section::-webkit-scrollbar-thumb {
+    background: #414661;
+
+    border-radius: 10px;
+}
+
+
+/* Task list */
+
+#taskList {
+    list-style: none;
+}
+
+
+/* -------------------------
+   Individual task
+------------------------- */
+
+.task {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 11px 8px;
+
+    border-bottom: 1px solid #292d42;
+
+    animation: taskAdded 0.35s ease;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        padding 0.25s ease;
+}
+
+.task:hover {
+    background: #20243a;
+
+    padding-left: 14px;
+
+    padding-right: 14px;
+
+    border-radius: 9px;
+
+    transform: translateX(3px);
+}
+
+@keyframes taskAdded {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(-10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* -------------------------
+   Check button
+------------------------- */
+
+.check-button {
+    width: 21px;
+    height: 21px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    border: 2px solid #64687f;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    position: relative;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.2s ease;
+}
+
+.check-button:hover {
+    border-color: #a99cff;
+
+    transform: scale(1.15);
+}
+
+.task.completed .check-button {
+    border-color: #a99cff;
+
+    background: #a99cff;
+
+    animation: checkPop 0.35s ease;
+}
+
+.task.completed .check-button::after {
+    content: "✓";
+
+    position: absolute;
+
+    left: 3px;
+    top: -2px;
+
+    color: #171927;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+@keyframes checkPop {
+
+    0% {
+        transform: scale(0.7);
+    }
+
+    70% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* -------------------------
+   Task text
+------------------------- */
+
+.task-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.task-name {
+    color: #dddbea;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 15px;
+
+    word-break: break-word;
+
+    transition: color 0.2s ease;
+}
+
+.task:hover .task-name {
+    color: #c5bdff;
+}
+
+.task.completed .task-name {
+    color: #696b7c;
+
+    text-decoration: line-through;
+}
+
+
+/* Priority */
+
+.priority-badge {
+    display: inline-block;
+
+    margin-top: 3px;
+
+    padding: 2px 7px;
+
+    border-radius: 10px;
+
+    background: #2c3045;
+
+    color: #85889d;
+
+    font-size: 8px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+.task.high .priority-badge {
+    background: #453039;
+
+    color: #ffaaa8;
+}
+
+.task.low .priority-badge {
+    background: #303a36;
+
+    color: #9ac7b1;
+}
+
+
+/* -------------------------
+   Delete
+------------------------- */
+
+.delete-button {
+    width: 30px;
+    height: 30px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #64677b;
+
+    font-size: 19px;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.task:hover .delete-button {
+    opacity: 1;
+}
+
+.delete-button:hover {
+    background: #3b2931;
+
+    color: #ff9696;
+
+    transform: rotate(8deg) scale(1.08);
+}
+
+
+/* Delete animation */
+
+.task.removing {
+    animation: taskRemove 0.35s ease forwards;
+}
+
+@keyframes taskRemove {
+
+    0% {
+        opacity: 1;
+
+        transform: translateX(0);
+
+        max-height: 70px;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform: translateX(80px);
+
+        max-height: 0;
+
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+
+/* -------------------------
+   Empty state
+------------------------- */
+
+.empty-state {
+    min-height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #686b80;
+
+    animation: emptyAppear 0.4s ease;
+}
+
+.empty-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 10px;
+
+    border-radius: 50%;
+
+    background: #292e46;
+
+    color: #aaa0ff;
+
+    font-size: 20px;
+
+    animation: floating 2.5s ease-in-out infinite;
+}
+
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.empty-state h2 {
+    color: #aaa8bc;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 19px;
+
+    margin-bottom: 4px;
+}
+
+.empty-state p {
+    font-size: 11px;
+}
+
+@keyframes emptyAppear {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+/* -------------------------
+   Footer
+------------------------- */
+
+.app-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding-top: 13px;
+
+    color: #62657a;
+
+    font-size: 10px;
+
+    border-top: 1px solid #292d42;
+}
+
+.footer-message {
+    color: #777a8f;
+
+    font-style: italic;
+}
+
+
+/* -------------------------
+   Input shake
+------------------------- */
+
+.shake {
+    animation: shakeInput 0.3s ease;
+}
+
+@keyframes shakeInput {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+
+/* -------------------------
+   Responsive
+------------------------- */
+
+@media (max-width: 750px) {
+
+    body {
+        overflow: auto;
+
+        padding: 15px;
+    }
+
+    .todo-app {
+        width: 100%;
+
+        height: auto;
+
+        min-height: calc(100vh - 30px);
+
+        padding: 28px 22px;
+    }
+
+    .app-header {
+        align-items: flex-start;
+    }
+
+    .add-task-box {
+        flex-wrap: wrap;
+    }
+
+    #taskInput {
+        flex-basis: 100%;
+    }
+
+    #priority {
+        flex: 1;
+    }
+
+    #addTaskButton {
+        flex: 1;
+
+        justify-content: center;
+    }
+
+    .tasks-section {
+        max-height: 50vh;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .app-header {
+        flex-direction: column;
+    }
+
+    .progress-box {
+        align-self: flex-end;
+    }
+
+    .task-toolbar {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .filters {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+    .app-footer {
+        flex-direction: column;
+
+        gap: 5px;
+    }
+}
